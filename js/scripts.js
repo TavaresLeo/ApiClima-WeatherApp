@@ -38,19 +38,33 @@ const forecastList = document.querySelector("#forecast-list");
 const toggleLoader = () => {
     if(loader) loader.classList.toggle("hide");
 };
-
+// --- CORREÇÃO DA FUNÇÃO DE FUNDO ---
 const updateBackgroundImage = async (city) => {
     try {
-        // Fallback se a chave for inválida ou vazia
-        if (!unsplashAccessKey || unsplashAccessKey === "") {
-             document.body.style.backgroundImage = `linear-gradient(180deg, #594cee 0%, #8dd0f5 100%)`; 
+        // GIF de Fallback (Céu/Nuvens)
+        const fallbackGif = "https://i.gifer.com/7QVp.gif"; 
+        
+        // Garante que a chave usada é a que você tinha antes
+        // Se quiser usar a sua própria, troque aqui
+        const currentKey = "XDUu1swRaDcGJ7LEyQOjLwz7HcBMHXXtUS_0H2q9jgo"; 
+
+        if (!currentKey) {
+             console.warn("Sem chave definida. Usando GIF.");
+             document.body.style.backgroundImage = `url("${fallbackGif}")`;
+             document.body.style.backgroundSize = "cover";
              return;
         }
 
-        // Tenta buscar imagem de céu/cidade
-        const url = `https://api.unsplash.com/search/photos?query=${city} sky&client_id=${unsplashAccessKey}&orientation=portrait&per_page=1`;
+        // Tenta buscar a imagem
+        const url = `https://api.unsplash.com/search/photos?query=${city} nature sky&client_id=${currentKey}&orientation=portrait&per_page=1`;
         
         const res = await fetch(url);
+        
+        // Se a API bloquear (Limite de 50/hora excedido), joga erro e vai pro GIF
+        if (res.status === 403) {
+            console.warn("Limite de requisições do Unsplash excedido (50/hora). Usando GIF.");
+            throw new Error("Limite Excedido");
+        }
         
         if (!res.ok) throw new Error("Erro API Imagem");
 
@@ -59,13 +73,19 @@ const updateBackgroundImage = async (city) => {
         if (data.results && data.results.length > 0) {
             const imageUrl = data.results[0].urls.regular;
             document.body.style.backgroundImage = `url("${imageUrl}")`;
+            console.log("Imagem carregada com sucesso!");
         } else {
-            // Gradiente padrão se não achar foto
-            document.body.style.backgroundImage = `linear-gradient(180deg, #4facfe 0%, #00f2fe 100%)`;
+            // Se a cidade for muito desconhecida e não tiver foto, usa GIF
+            document.body.style.backgroundImage = `url("${fallbackGif}")`;
         }
+        document.body.style.backgroundSize = "cover"; 
+
     } catch (error) {
-        console.error("Erro imagem:", error);
-        document.body.style.backgroundImage = `linear-gradient(180deg, #4facfe 0%, #00f2fe 100%)`;
+        console.error("Erro ao buscar imagem:", error);
+        // Em caso de qualquer erro (internet, chave, limite), usa o GIF
+        const fallbackGif = "https://i.gifer.com/7QVp.gif";
+        document.body.style.backgroundImage = `url("${fallbackGif}")`;
+        document.body.style.backgroundSize = "cover";
     }
 };
 
