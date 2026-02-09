@@ -1,5 +1,9 @@
-export const API_KEY = "544174bd2bfe8116425360c0dbda71cb";
-export const UNSPLASH_KEY = "XDUu1swRaDcGJ7LEyQOjLwz7HcBMHXXtUS_0H2q9jgo";
+// src/scripts/utils/constants.js
+import { Config } from './config.js';
+
+export const API_KEY = Config.API_KEY;
+export const UNSPLASH_KEY = Config.UNSPLASH_KEY;
+// ... resto do seu arquivo constants.js continua igual ...
 
 export const ELEMENTS = {
     cityInput: document.querySelector("#city-input"),

@@ -60,12 +60,19 @@
         </div>
     </div>
     
-    <script type="module" src="./src/scripts/main.js"></script>
+   <script type="module" src="./src/scripts/main.js"></script>
     
     <script>
       if ('serviceWorker' in navigator) {
-        // O SW agora está na raiz, o que facilita o escopo
-        navigator.serviceWorker.register('./sw.js');
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then((registration) => {
+              console.log('SW registrado com sucesso:', registration.scope);
+            })
+            .catch((err) => {
+              console.log('Falha ao registrar SW:', err);
+            });
+        });
       }
     </script>
   </body>
