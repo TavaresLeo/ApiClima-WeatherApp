@@ -2,32 +2,21 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WeatherApi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ApiClima</title>
     
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/4052/4052984.png" />
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/4052/4052984.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../src/styles/main.css" />
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <meta name="theme-color" content="#1e1e1e">
-    <link rel="stylesheet" href="css/styles.css" />
-    
   </head>
-<body>
+  <body>
     
     <div class="container">
-        
         <div id="weather-data" class="hide">
-            
-            <button id="close-btn">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button id="close-btn"><i class="fa-solid fa-xmark"></i></button>
             
             <h2>
                 <i class="fa-solid fa-location-dot"></i>
@@ -35,7 +24,7 @@
                 <img id="country" src="" alt="Bandeira">
             </h2>
 
-            <p id="temperature"><span></span>&deg;C</p>
+            <p id="temperature"><span></span></p>
 
             <div id="description-container">
                 <p id="description"></p>
@@ -48,51 +37,32 @@
             </div>
 
             <div id="details-container">
-                <p id="humidity">
-                    <i class="fa-solid fa-droplet"></i>
-                    <span></span>
-                </p>
-                <p id="wind">
-                    <i class="fa-solid fa-wind"></i>
-                    <span></span>
-                </p>
+                <p id="humidity"><i class="fa-solid fa-droplet"></i> <span></span></p>
+                <p id="wind"><i class="fa-solid fa-wind"></i> <span></span></p>
             </div>
 
-            <button id="forecast-btn">
-                Ver previsão para 5 dias <i class="fa-solid fa-chevron-down"></i>
-            </button>
-
-            <div id="forecast-container" class="hide">
-                <div id="forecast-list"></div>
-            </div>
+            <button id="forecast-btn">Ver previsão para 5 dias <i class="fa-solid fa-chevron-down"></i></button>
+            <div id="forecast-container" class="hide"><div id="forecast-list"></div></div>
         </div>
 
-        <div id="error-message" class="hide">
-            <p>Cidade não encontrada.</p>
-        </div>
+        <div id="error-message" class="hide"><p>Cidade não encontrada.</p></div>
+        <div id="loader" class="hide"><i class="fa-solid fa-spinner fa-spin"></i></div>
 
-        <div id="loader" class="hide">
-            <i class="fa-solid fa-spinner fa-spin"></i>
-        </div>
-
-       <div class="form">
+        <div class="form">
             <div class="form-input-container">
                 <input type="text" placeholder="Digite o nome da cidade" id="city-input" />
-                
-                <button id="mic-btn" class="mic-off">
-                    <i class="fa-solid fa-microphone"></i>
-                </button>
-                <button id="search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <button id="location">
-                    <i class="fa-solid fa-location-crosshairs"></i>
-                </button>
+                <button id="mic-btn" class="mic-off"><i class="fa-solid fa-microphone"></i></button>
+                <button id="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button id="location"><i class="fa-solid fa-location-crosshairs"></i></button>
             </div>
         </div>
-
     </div>
     
-    <script src="js/scripts.js"></script>
-</body>
+    <script type="module" src="../src/scripts/main.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../src/sw.js');
+      }
+    </script>
+  </body>
 </html>
