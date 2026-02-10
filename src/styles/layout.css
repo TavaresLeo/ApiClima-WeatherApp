@@ -58,10 +58,10 @@ body.keyboard-active #details-container, body.keyboard-active #forecast-btn, bod
 body.keyboard-active #close-btn, body.keyboard-active #weather-icon { display: none !important; }
 
 /* Barra de Pesquisa */
-body.keyboard-active .form { margin: 0 !important; flex-shrink: 0; width: 90%; max-width: 350px; }
+body.keyboard-active .form { margin: 0 !important; flex-shrink: 0; width: 100% !important; max-width: 480px !important; }
 
 /* --- CORREÇÃO DO ESPAÇAMENTO DOS ÍCONES --- */
 body.keyboard-active .form button {
-    margin: 0 3px !important; /* Aumenta o espaço lateral entre eles */
+    margin: 0 1px !important; /* Aumenta o espaço lateral entre eles */
     padding: 5px; /* Garante uma área de toque melhor */
 }
