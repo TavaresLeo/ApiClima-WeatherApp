@@ -23,6 +23,104 @@
     #temperature span { font-size: 4rem; }
 }
 
+
+
+/* 1. CELULARES ESTREITOS (ex: Galaxy Fold fechado, iPhone SE antigo) */
+@media (max-width: 360px) {
+    .container {
+        padding: 0.5rem; /* Menos borda */
+    }
+
+    #city { font-size: 1.5rem; } /* Nome da cidade menor */
+    #temperature span { font-size: 3.5rem; } /* Temperatura menor */
+    
+    .form {
+        padding: 2px 5px; /* Barra mais fina */
+    }
+    
+    .form input {
+        font-size: 0.9rem; /* Texto menor */
+    }
+}
+
+/* 2. RELÓGIOS / WEARABLES (Telas ~186px a 200px) */
+@media (max-width: 210px) {
+    
+    /* Centraliza tudo e remove rolagens */
+    body {
+        align-items: center;
+        justify-content: center;
+        overflow: hidden; /* Relógio não deve ter scroll */
+    }
+
+    .container {
+        padding: 5px;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    /* --- LAYOUT DO CLIMA NO RELÓGIO --- */
+    #weather-data {
+        padding: 5px;
+        margin: 0;
+        background: transparent; /* Remove vidro pesado */
+        box-shadow: none;
+        border: none;
+    }
+
+    /* Esconde detalhes desnecessários para tela pequena */
+    #country, #description-container, #min-max-container, 
+    #details-container, #forecast-btn, #close-btn {
+        display: none !important;
+    }
+
+    #city { font-size: 1rem; margin-bottom: 0; }
+    #temperature span { font-size: 2.5rem; line-height: 1; }
+
+    /* --- A BARRA DE PESQUISA VIRA BOTÃO DE VOZ --- */
+    .form {
+        width: auto;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        backdrop-filter: none;
+    }
+
+    .form-input-container {
+        justify-content: center;
+        width: auto;
+    }
+
+    /* ESCONDE O INPUT DE TEXTO, LUPA E LOCALIZAÇÃO */
+    #city-input, 
+    #search, 
+    #location {
+        display: none !important;
+    }
+
+    /* TRANSFORMA O MICROFONE EM UM BOTÃO GIGANTE */
+    #mic-btn {
+        display: flex !important;
+        width: 60px !important;  /* Botão grande para o dedo acertar */
+        height: 60px !important;
+        background: rgba(255, 255, 255, 0.2) !important; /* Fundo circular */
+        border-radius: 50%;
+        font-size: 1.5rem; /* Ícone grande */
+        margin: 0 !important;
+        
+        /* Animação suave para indicar que é clicável */
+        animation: pulseWatch 2s infinite;
+    }
+}
+
+@keyframes pulseWatch {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
 /* --- MODO TECLADO (Layout Final) --- */
 body.keyboard-active { overflow: hidden; }
 
