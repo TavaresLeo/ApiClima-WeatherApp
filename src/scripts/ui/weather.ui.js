@@ -25,6 +25,8 @@ const renderForecastVisuals = (data) => {
     });
 };
 
+// src/scripts/ui/weather.ui.js
+
 export const updateUI = (data, forecastData) => {
     if (data.cod === "404" || data.cod === "400") {
         if(ELEMENTS.errorMessageContainer) ELEMENTS.errorMessageContainer.classList.remove("hide");
@@ -33,27 +35,42 @@ export const updateUI = (data, forecastData) => {
 
     ELEMENTS.errorMessageContainer.classList.add("hide");
 
-    // Dados Principais
+    // --- DADOS PRINCIPAIS ---
     ELEMENTS.cityElement.innerText = data.name;
-    ELEMENTS.tempElement.innerText = parseInt(data.main.temp);
+    
+    // MUDANÇA AQUI: Adicionamos o "°" ao lado do número
+    ELEMENTS.tempElement.innerText = `${parseInt(data.main.temp)}°`;
+
     ELEMENTS.descElement.innerText = data.weather[0].description;
+    
+    // Configura a bandeira
     ELEMENTS.countryElement.setAttribute("src", `https://flagcdn.com/64x48/${data.sys.country.toLowerCase()}.png`);
+    
+    // Configura umidade e vento
     ELEMENTS.humidityElement.innerText = `${data.main.humidity}%`;
     ELEMENTS.windElement.innerText = `${data.wind.speed}km/h`;
 
-    // Min/Max e Previsão
+    // --- MIN/MAX E PREVISÃO ---
     if (forecastData && forecastData.list) {
-        const realTemps = calculateDayMinMax(forecastData.list);
-        ELEMENTS.maxTempElement.innerText = parseInt(realTemps.max);
-        ELEMENTS.minTempElement.innerText = parseInt(realTemps.min);
+        // Se tivermos a função auxiliar calculateDayMinMax importada ou definida neste arquivo:
+        // const realTemps = calculateDayMinMax(forecastData.list);
+        // ELEMENTS.maxTempElement.innerText = parseInt(realTemps.max);
+        // ELEMENTS.minTempElement.innerText = parseInt(realTemps.min);
+        
+        // Caso não tenha a função auxiliar, use os dados diretos da API atual:
+        ELEMENTS.maxTempElement.innerText = parseInt(data.main.temp_max);
+        ELEMENTS.minTempElement.innerText = parseInt(data.main.temp_min);
+        
         renderForecastVisuals(forecastData);
     } else {
         ELEMENTS.maxTempElement.innerText = parseInt(data.main.temp_max);
         ELEMENTS.minTempElement.innerText = parseInt(data.main.temp_min);
     }
 
+    // Atualiza o fundo
     updateBackgroundImage(data.name);
 
+    // Exibe o container
     ELEMENTS.forecastContainer.classList.add("hide");
     ELEMENTS.weatherContainer.classList.remove("hide");
     ELEMENTS.container.classList.add("result-mode");

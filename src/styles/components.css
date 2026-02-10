@@ -34,8 +34,8 @@
     height: 25px; margin-left: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-#temperature span { 
-    font-size: 5rem; font-weight: 600; letter-spacing: -2px; line-height: 1.1; display: block;
+#temperature { 
+    font-size: 3rem; font-weight: 500; letter-spacing: -2px; line-height: 1.1; display: block;
 }
 
 #description { 
