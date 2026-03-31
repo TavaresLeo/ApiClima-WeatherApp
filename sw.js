@@ -1,10 +1,10 @@
 // sw.js (Na raiz do projeto)
 
-const CACHE_NAME = "apiclima-v1"; // Mude o nome p/ v2 quando atualizar o código
+const CACHE_NAME = "apiclima-v2"; // Atualizado para v2 para forçar o navegador a limpar o antigo
 const ASSETS_TO_CACHE = [
-  "./",                 // Raiz
-  "./index.html",       // HTML Principal
-  "./manifest.json",    // Manifesto
+  "./",                 
+  "./index.html",       
+  "./manifest.json",    
   "./src/styles/main.css",
   "./src/styles/base.css",
   "./src/styles/layout.css",
@@ -15,8 +15,8 @@ const ASSETS_TO_CACHE = [
   "./src/scripts/api/weather.api.js",
   "./src/scripts/api/unsplash.api.js",
   "./src/scripts/services/speech.service.js",
+  "./src/scripts/services/geolocation.service.js", // <-- Adicionado o novo serviço
   "./src/scripts/ui/weather.ui.js",
-  // Adicione aqui outros arquivos que seu app usa
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css",
   "https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
 ];
@@ -25,14 +25,14 @@ const ASSETS_TO_CACHE = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("[Service Worker] Caching app shell");
+      console.log("[Service Worker] Fazendo cache dos arquivos");
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
-  self.skipWaiting(); // Força o SW a ativar imediatamente
+  self.skipWaiting();
 });
 
-// 2. Ativação: Limpa caches antigos
+// 2. Ativação: Limpa caches antigos (ex: apiclima-v1)
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
@@ -46,23 +46,21 @@ self.addEventListener("activate", (event) => {
       );
     })
   );
-  self.clients.claim(); // Controla a página imediatamente
+  self.clients.claim();
 });
 
-// 3. Interceptação (Fetch): Estratégia "Stale-while-revalidate"
+// 3. Interceptação (Fetch): Estratégia "Network First" (Rede Primeiro)
 self.addEventListener("fetch", (event) => {
-  // Não cachear chamadas para APIs externas (Weather/Unsplash) para ter dados frescos
+  // Ignora chamadas de API (sempre busca da rede para ter dados frescos)
   if (event.request.url.includes("api.openweathermap.org") || 
       event.request.url.includes("api.unsplash.com")) {
-     // Para APIs: Tenta Rede primeiro, se falhar, tenta cache (opcional, aqui deixamos rede pura)
      return; 
   }
 
-  // Para arquivos do App (HTML, CSS, JS): Cache First, depois Rede
+  // Network First: Tenta a rede; se falhar (offline), busca no cache.
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Se achou no cache, retorna. Senão, busca na rede.
-      return response || fetch(event.request);
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
 });

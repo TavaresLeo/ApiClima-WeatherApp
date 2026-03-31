@@ -45,9 +45,13 @@ const handleSearch = () => {
     if (city) showWeatherData(city);
 };
 
-ELEMENTS.searchBtn.addEventListener("click", (e) => {
+// Trocamos "click" por "pointerdown"
+ELEMENTS.searchBtn.addEventListener("pointerdown", (e) => {
     e.preventDefault();
     handleSearch();
+    
+    // Opcional: Força o teclado do celular a fechar após a busca
+    ELEMENTS.cityInput.blur(); 
 });
 
 ELEMENTS.cityInput.addEventListener("keyup", (e) => {
