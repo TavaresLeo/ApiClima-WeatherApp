@@ -1,1 +1,15 @@
-{}
+{
+    "name": "apliclima-pwa",
+    "version": "1.0.0",
+    "description": "App de clima com arquitetura modular e PWA",
+    "main": "src/scripts/main.js",
+    "scripts": {
+        "start": "npx serve .",
+        "dev": "npx serve ."
+    },
+    "author": "Leo Tavares",
+    "license": "MIT",
+    "devDependencies": {
+        "serve": "^14.2.0"
+    }
+}

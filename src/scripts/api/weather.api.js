@@ -18,3 +18,4 @@ export const getWeatherDataByCoords = async (lat, lon) => {
     const res = await fetch(url);
     return await res.json();
 };
+
